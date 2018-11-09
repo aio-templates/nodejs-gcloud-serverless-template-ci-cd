@@ -1,0 +1,14 @@
+package-lock.json
+node_modules
+
+idea
+.idea
+.vscode
+
+dist
+build
+
+config/config.json
+yarn-error.log*
+yarn.lock
+config/true360-dev-1-firebase-adminsdk-*.json

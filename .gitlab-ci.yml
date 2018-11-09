@@ -1,7 +1,7 @@
 image: node:10.13-alpine
 
 variables:
-  GCP_PROJECT_ID: {project-id}
+  GCP_PROJECT_ID: moxiefitnessnode
   GCP_ZONE: us-central1-a
 
 services:

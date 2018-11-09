@@ -8,7 +8,7 @@ idea
 dist
 build
 
-config/config.json
+config/config.js
 yarn-error.log*
 yarn.lock
-config/true360-dev-1-firebase-adminsdk-*.json
+config/firebase-admin.json

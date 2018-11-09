@@ -1,7 +1,7 @@
 image: node:10.13-alpine
 
 variables:
-  GCP_PROJECT_ID: moxiefitnessnode
+  GCP_PROJECT_ID: moxiefitness-4cadf
   GCP_ZONE: us-central1-a
 
 services:
@@ -35,10 +35,10 @@ before_script:
   - gcloud config set project $GCP_PROJECT_ID
 
 stages:
+  - build
   - unit_tests
   - test_eslint
   - test_prettier
-  - build
   - dev_deploy
   - deploy
 
@@ -53,6 +53,10 @@ build:
 
 unit_tests:
   stage: unit_tests
+  before_script:
+    - apk add --update nodejs nodejs-npm zip
+    - npm install
+    - yarn config set cache-folder .yarn
   environment:
     name: dev
   script:
@@ -60,6 +64,10 @@ unit_tests:
 
 test_eslint:
   stage: test_eslint
+  before_script:
+    - apk add --update nodejs nodejs-npm zip
+    - npm install
+    - yarn config set cache-folder .yarn
   environment:
     name: dev
   script:
@@ -67,6 +75,10 @@ test_eslint:
 
 test_prettier:
   stage: test_prettier
+  before_script:
+    - apk add --update nodejs nodejs-npm zip
+    - npm install
+    - yarn config set cache-folder .yarn
   environment:
     name: dev
   script:
@@ -82,6 +94,8 @@ dev_deploy:
     - gcloud beta functions deploy "$CI_BRANCH-"api --source gs://mfnodejs_bucket/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http
   only:
     - branches
+  except:
+    - master
 
 deploy:
   stage: deploy

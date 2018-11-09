@@ -1,7 +1,7 @@
 image: node:10.13-alpine
 
 variables:
-  GCP_PROJECT_ID: moxiefitness-4cadf
+  GCP_PROJECT_ID: {project-id}
   GCP_ZONE: us-central1-a
 
 services:
@@ -36,7 +36,7 @@ before_script:
 
 stages:
   - build
-  - unit_tests
+  # - unit_tests
   - test_eslint
   - test_prettier
   - dev_deploy
@@ -51,16 +51,16 @@ build:
     - echo "Pushing to GitLab Container Registry..."
     - gsutil cp app.zip gs://mfnodejs_bucket/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip
 
-unit_tests:
-  stage: unit_tests
-  before_script:
-    - apk add --update nodejs nodejs-npm zip
-    - npm install
-    - yarn config set cache-folder .yarn
-  environment:
-    name: dev
-  script:
-    - yarn test
+# unit_tests:
+#   stage: unit_tests
+#   before_script:
+#     - apk add --update nodejs nodejs-npm zip
+#     - npm install
+#     - yarn config set cache-folder .yarn
+#   environment:
+#     name: dev
+#   script:
+#     - yarn test
 
 test_eslint:
   stage: test_eslint

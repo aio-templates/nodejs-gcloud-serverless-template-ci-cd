@@ -49,7 +49,7 @@ build:
     - docker:dind
   script:
     - echo "Pushing to GitLab Container Registry..."
-    - gsutil cp app.zip gs://mfnodejs_bucket/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip
+    - gsutil cp app.zip gs://{bucket_name}/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip
 
 # unit_tests:
 #   stage: unit_tests
@@ -91,7 +91,7 @@ dev_deploy:
     name: dev
   script:
     # Deploy
-    - gcloud beta functions deploy "$CI_BRANCH-"api --source gs://mfnodejs_bucket/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http
+    - gcloud beta functions deploy "$CI_BRANCH-"api --source gs://{bucket_name}/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http
   only:
     - branches
   except:
@@ -104,6 +104,6 @@ deploy:
     name: prod
   script:
     # Deploy
-    - gcloud beta functions deploy api --source gs://mfnodejs_bucket/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http
+    - gcloud beta functions deploy api --source gs://{bucket_name}/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http
   only:
     - master

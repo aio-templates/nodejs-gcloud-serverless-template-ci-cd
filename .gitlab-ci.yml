@@ -6,11 +6,11 @@ variables:
   GCP_BUCKET: alan_test_bucket
   
 # Cache modules in between jobs
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-  - node_modules/
-  - google-cloud-sdk/
+# cache:
+#   key: ${CI_COMMIT_REF_SLUG}
+#   paths:
+#   - node_modules/
+#   - google-cloud-sdk/
 
 before_script:
   - export CI_APPLICATION_REPOSITORY=$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG

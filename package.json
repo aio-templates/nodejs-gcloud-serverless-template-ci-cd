@@ -27,11 +27,8 @@
     "firebase-admin": "^5.11.0",
     "morgan": "^1.7.0",
     "mysql2": "^1.6.4",
-    "pg": "^6.1.0",
-    "pg-hstore": "^2.3.2",
     "sequelize": "^4.38.0",
-    "sequelize-cli": "^4.1.1",
-    "serve-favicon": "^2.5.0"
+    "sequelize-cli": "^4.1.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -48,11 +45,6 @@
     "mocha": "^5.2.0",
     "prettier": "^1.14.2",
     "prettier-check": "^2.0.0",
-    "supertest": "^3.3.0",
-    "webpack": "^4.20.2",
-    "webpack-bundle-analyzer": "^3.0.2",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9",
-    "webpack-merge": "^4.1.4"
+    "supertest": "^3.3.0"
   }
 }

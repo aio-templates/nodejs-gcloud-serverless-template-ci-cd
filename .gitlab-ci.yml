@@ -102,6 +102,6 @@ deploy:
   environment:
     name: prod
   script:
-    - gcloud beta functions deploy api-"$CI_BRANCH" --source gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http
+    - gcloud beta functions deploy api-"$CI_BRANCH" --source gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http --env-vars-file .env.yaml
   only:
     - master

@@ -89,7 +89,7 @@ dev_deploy:
   environment:
     name: dev
   script:
-    - gcloud beta functions deploy api"-$CI_BRANCH" --source gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http --env-vars-file .env.yaml
+    - gcloud beta functions deploy api"-$CI_BRANCH" --source gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http -set-env-vars DB_USERNAME=$DB_USERNAME,DB_PASSWORD=DB_PASSWORD,DB_NAME=$DB_NAME,DB_HOSTNAME=$DB_HOSTNAME
   only:
     - branches
   except:
@@ -100,6 +100,6 @@ deploy:
   environment:
     name: prod
   script:
-    - gcloud beta functions deploy api --source gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http --env-vars-file .env.yaml
+    - gcloud beta functions deploy api --source gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http --env-vars-file .env.yaml DB_USERNAME=$DB_USERNAME,DB_PASSWORD=DB_PASSWORD,DB_NAME=$DB_NAME,DB_HOSTNAME=$DB_HOSTNAME
   only:
     - master

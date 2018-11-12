@@ -4,9 +4,12 @@ variables:
   GCP_PROJECT_ID: alan-demos
   GCP_ZONE: us-central1-a
   GCP_BUCKET: alan_test_bucket
-
-services:
-  - docker:dind
+  
+# Cache modules in between jobs
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - node_modules/
 
 before_script:
   - export CI_APPLICATION_REPOSITORY=$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
@@ -86,7 +89,6 @@ test_prettier:
 
 dev_deploy:
   stage: dev_deploy
-  image: docker:latest
   environment:
     name: dev
   script:
@@ -99,7 +101,6 @@ dev_deploy:
 
 deploy:
   stage: deploy
-  image: docker:latest
   environment:
     name: prod
   script:

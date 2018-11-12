@@ -51,7 +51,7 @@ build:
     - npm install
 
     # Zip for uploading to bucket
-    - zip -r app.zip ./
+    - zip -r app.zip ./ -x ./node_modules/*
     - gsutil cp app.zip gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip
 
 # unit_tests:

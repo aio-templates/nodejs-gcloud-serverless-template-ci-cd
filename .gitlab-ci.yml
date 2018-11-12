@@ -17,7 +17,6 @@ before_script:
   - export CI_APPLICATION_TAG=$CI_COMMIT_SHA
   - export CI_BRANCH=$CI_COMMIT_REF_NAME
   - apk add --update nodejs nodejs-npm zip
-  - npm install yarn -g
   - npm install
 
   # Zip for uploading to bucket
@@ -66,7 +65,7 @@ build:
 test_eslint:
   stage: test_eslint
   before_script:
-    - apk add --update nodejs nodejs-npm zip
+    - apk add --update nodejs nodejs-npm
     - npm install
     - yarn config set cache-folder .yarn
   environment:
@@ -77,7 +76,7 @@ test_eslint:
 test_prettier:
   stage: test_prettier
   before_script:
-    - apk add --update nodejs nodejs-npm zip
+    - apk add --update nodejs nodejs-npm
     - npm install
     - yarn config set cache-folder .yarn
   environment:

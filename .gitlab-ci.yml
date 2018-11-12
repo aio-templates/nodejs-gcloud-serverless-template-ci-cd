@@ -10,11 +10,18 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
   - node_modules/
+  - google-cloud-sdk/
 
 before_script:
   - export CI_APPLICATION_REPOSITORY=$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
   - export CI_APPLICATION_TAG=$CI_COMMIT_SHA
   - export CI_BRANCH=$CI_COMMIT_REF_NAME
+  - apk add --update nodejs nodejs-npm zip
+  - npm install yarn -g
+  - npm install
+
+  # Zip for uploading to bucket
+  - zip -r app.zip ./
 
   # Install CA certs, openssl to https downloads, python for gcloud sdk
   - apk add --update make ca-certificates openssl python
@@ -42,16 +49,7 @@ stages:
 
 build:
   stage: build
-  image: docker:latest
-  services:
-    - docker:dind
   script:
-    - apk add --update nodejs nodejs-npm zip
-    - npm install yarn -g
-    - npm install
-
-    # Zip for uploading to bucket
-    - zip -r app.zip ./ -x ./node_modules/*
     - gsutil cp app.zip gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip
 
 # unit_tests:

@@ -16,7 +16,7 @@ before_script:
   - npm install
 
   # Zip for uploading to bucket
-  - zip -r app.zip ./
+  - zip -r app.zip ./ -x ./node_modules/*
 
   # Install CA certs, openssl to https downloads, python for gcloud sdk
   - apk add --update make ca-certificates openssl python

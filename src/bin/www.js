@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var app = require('../index').api;
+var app = require('../app');
 var debug = require('debug')('express-sequelize');
 var http = require('http');
 var models = require('../models');

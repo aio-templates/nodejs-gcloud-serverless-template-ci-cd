@@ -1,22 +1,21 @@
 image: node:10.13-alpine
 
 variables:
-  GCP_PROJECT_ID: {project-id}
+  GCP_PROJECT_ID: alan-demos
   GCP_ZONE: us-central1-a
+  GCP_BUCKET: alan_test_bucket
 
-services:
-  - docker:dind
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
 
 before_script:
   - export CI_APPLICATION_REPOSITORY=$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
   - export CI_APPLICATION_TAG=$CI_COMMIT_SHA
   - export CI_BRANCH=$CI_COMMIT_REF_NAME
   - apk add --update nodejs nodejs-npm zip
-  - npm install yarn -g
-  - npm install
-
-  # Zip for uploading to bucket
-  - zip -r app.zip ./ -x ./node_modules/*
+  - apk --no-cache add --virtual native-deps \ g++ gcc libgcc libstdc++ linux-headers make python && pm install --quiet node-gyp -g && npm install --quiet &&  apk del native-deps
 
   # Install CA certs, openssl to https downloads, python for gcloud sdk
   - apk add --update make ca-certificates openssl python
@@ -35,12 +34,33 @@ before_script:
   - gcloud config set project $GCP_PROJECT_ID
 
 stages:
+  # - test_eslint
+  # - test_prettier
   - build
-  # - unit_tests
-  - test_eslint
-  - test_prettier
   - dev_deploy
   - deploy
+
+# test_eslint:
+#   stage: test_eslint
+#   before_script:
+#     - apk add --update nodejs nodejs-npm
+#     - npm install
+#     - yarn config set cache-folder .yarn
+#   environment:
+#     name: dev
+#   script:
+#     - yarn lint-ci
+
+# test_prettier:
+#   stage: test_prettier
+#   before_script:
+#     - apk add --update nodejs nodejs-npm
+#     - npm install
+#     - yarn config set cache-folder .yarn
+#   environment:
+#     name: dev
+#   script:
+#     - yarn prettier-ci
 
 build:
   stage: build
@@ -48,49 +68,28 @@ build:
   services:
     - docker:dind
   script:
-    - echo "Pushing to GitLab Container Registry..."
-    - gsutil cp app.zip gs://{bucket_name}/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip
-
-# unit_tests:
-#   stage: unit_tests
-#   before_script:
-#     - apk add --update nodejs nodejs-npm zip
-#     - npm install
-#     - yarn config set cache-folder .yarn
-#   environment:
-#     name: dev
-#   script:
-#     - yarn test
-
-test_eslint:
-  stage: test_eslint
-  before_script:
-    - apk add --update nodejs nodejs-npm zip
     - npm install
-    - yarn config set cache-folder .yarn
-  environment:
-    name: dev
-  script:
-    - yarn lint-ci
+    - npm install copyfiles -g
+    - npm run build
+      #- cp -r node_modules dist
+    - cp deploy_index.js index.js
+    - mv index.js dist
+    - cp package.json dist
 
-test_prettier:
-  stage: test_prettier
-  before_script:
-    - apk add --update nodejs nodejs-npm zip
-    - npm install
-    - yarn config set cache-folder .yarn
-  environment:
-    name: dev
-  script:
-    - yarn prettier-ci
+    # Zip for uploading to bucket
+    - cd dist
+    - zip -r ../app.zip ./* ../node_modules
+    - cd ..
+    - gsutil cp app.zip gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip
 
 dev_deploy:
   stage: dev_deploy
-  image: docker:latest
   environment:
     name: dev
   script:
-    - gcloud beta functions deploy "$CI_BRANCH-"api --source gs://{bucket_name}/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http
+    - gcloud beta functions deploy api"-$CI_BRANCH" --entry-point api
+      --runtime nodejs6 --trigger-http --set-env-vars DEV_DB_USERNAME=$DEV_DB_USERNAME,DEV_DB_PASSWORD=$DEV_DB_PASSWORD,DEV_DB_NAME=$DEV_DB_NAME,DEV_DB_HOSTNAME=$DEV_DB_HOSTNAME
+      --source gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip
   only:
     - branches
   except:
@@ -98,10 +97,11 @@ dev_deploy:
 
 deploy:
   stage: deploy
-  image: docker:latest
   environment:
     name: prod
   script:
-    - gcloud beta functions deploy api-"$CI_BRANCH" --source gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip --runtime nodejs6 --trigger-http --env-vars-file .env.yaml
+    - gcloud beta functions deploy api
+      --runtime nodejs6 --trigger-http --set-env-vars PROD_DB_USERNAME=$PROD_DB_USERNAME,PROD_DB_PASSWORD=$PROD_DB_PASSWORD,PROD_DB_NAME=$PROD_DB_NAME,PROD_DB_HOSTNAME=$PROD_DB_HOSTNAME
+      --source gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip
   only:
     - master

@@ -1,7 +1,11 @@
 {
   "name": "nodejs-googlecloudfunctions",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
+  "description": "Node/Express API application template for CI/CD to Google Cloud Functions.",
+  "contributors": [
+    "Alan Negrete <alan.t.negrete@mox-fit.com>"
+  ],
   "scripts": {
     "start": "nodemon ./src/bin/www --exec babel-node --presets es2015,stage-2",
     "build": "./node_modules/.bin/babel src --out-dir dist && copyfiles -f src/config/*.json ./dist/config/",

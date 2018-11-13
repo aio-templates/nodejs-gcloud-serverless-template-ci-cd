@@ -34,33 +34,33 @@ before_script:
   - gcloud config set project $GCP_PROJECT_ID
 
 stages:
-  # - test_eslint
-  # - test_prettier
+  - test_eslint
+  - test_prettier
   - build
   - dev_deploy
   - deploy
 
-# test_eslint:
-#   stage: test_eslint
-#   before_script:
-#     - apk add --update nodejs nodejs-npm
-#     - npm install
-#     - yarn config set cache-folder .yarn
-#   environment:
-#     name: dev
-#   script:
-#     - yarn lint-ci
+ttest_eslint:
+  stage: test_eslint
+  before_script:
+    - apk add --update nodejs nodejs-npm
+    - npm install
+    - yarn config set cache-folder .yarn
+  environment:
+    name: dev
+  script:
+    - yarn lint-ci
 
-# test_prettier:
-#   stage: test_prettier
-#   before_script:
-#     - apk add --update nodejs nodejs-npm
-#     - npm install
-#     - yarn config set cache-folder .yarn
-#   environment:
-#     name: dev
-#   script:
-#     - yarn prettier-ci
+test_prettier:
+  stage: test_prettier
+  before_script:
+    - apk add --update nodejs nodejs-npm
+    - npm install
+    - yarn config set cache-folder .yarn
+  environment:
+    name: dev
+  script:
+    - yarn prettier-ci
 
 build:
   stage: build
@@ -88,7 +88,7 @@ dev_deploy:
     name: dev
   script:
     - gcloud beta functions deploy api"-$CI_BRANCH" --entry-point api
-      --runtime nodejs6 --trigger-http --set-env-vars DEV_DB_USERNAME=$DEV_DB_USERNAME,DEV_DB_PASSWORD=$DEV_DB_PASSWORD,DEV_DB_NAME=$DEV_DB_NAME,DEV_DB_HOSTNAME=$DEV_DB_HOSTNAME
+      --runtime nodejs6 --trigger-http --set-env-vars APP_ENV=development,DEV_DB_USERNAME=$DEV_DB_USERNAME,DEV_DB_PASSWORD=$DEV_DB_PASSWORD,DEV_DB_NAME=$DEV_DB_NAME,DEV_DB_HOSTNAME=$DEV_DB_HOSTNAME
       --source gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip
   only:
     - branches
@@ -101,7 +101,7 @@ deploy:
     name: prod
   script:
     - gcloud beta functions deploy api
-      --runtime nodejs6 --trigger-http --set-env-vars PROD_DB_USERNAME=$PROD_DB_USERNAME,PROD_DB_PASSWORD=$PROD_DB_PASSWORD,PROD_DB_NAME=$PROD_DB_NAME,PROD_DB_HOSTNAME=$PROD_DB_HOSTNAME
+      --runtime nodejs6 --trigger-http --set-env-vars APP_ENV=production,PROD_DB_USERNAME=$PROD_DB_USERNAME,PROD_DB_PASSWORD=$PROD_DB_PASSWORD,PROD_DB_NAME=$PROD_DB_NAME,PROD_DB_HOSTNAME=$PROD_DB_HOSTNAME
       --source gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip
   only:
     - master

@@ -27,8 +27,4 @@ app.get('/*', (req, res) =>
   })
 );
 
-const api = app;
-
-module.exports = {
-  api,
-};
+export default app;

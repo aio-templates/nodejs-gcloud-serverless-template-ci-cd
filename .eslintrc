@@ -15,7 +15,6 @@
     "prettier/prettier": "warn",
     "linebreak-style": "off",
     "global-require": "off",
-    "semi": "warn",
-    "quotes": ["warn", "single"]
+    "semi": "warn"
   }
 }

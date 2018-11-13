@@ -34,13 +34,24 @@ before_script:
   - gcloud config set project $GCP_PROJECT_ID
 
 stages:
+  - test_unit
   - test_eslint
   - test_prettier
   - build
   - dev_deploy
   - deploy
 
-ttest_eslint:
+test_unit:
+  stage: test_unit
+  before_script:
+    - apk add --update nodejs nodejs-npm
+    - npm install
+  environment:
+    name: dev
+  script:
+    - npm test
+
+test_eslint:
   stage: test_eslint
   before_script:
     - apk add --update nodejs nodejs-npm

@@ -65,5 +65,5 @@ npm start
 
 ## Running Tests
 
-- **Note**: only currently supported in Development, current issue open for unit tests in CI/CD. Feel free to open up a MR for it :)
+- **Note**: ~~only currently supported in Development, current issue open for unit tests in CI/CD. Feel free to open up a MR for it :)~~ Unit Tests are now ran before the linter stages.
 - [Mocha](https://mochajs.org) based tests: You can run them by `npm test`

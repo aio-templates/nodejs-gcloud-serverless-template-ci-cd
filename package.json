@@ -11,7 +11,6 @@
     "build": "./node_modules/.bin/babel src --out-dir dist && copyfiles -f src/config/*.json ./dist/config/",
     "test": "npm run test-unit",
     "test-unit": "cross-env APP_ENV=test ./node_modules/.bin/mocha test/unit/*.test.js",
-    "test-integration": "cross-env APP_ENV=test ./node_modules/.bin/mocha test/integration/*.test.js",
     "lint-ci": "./node_modules/.bin/eslint src/**/*.js",
     "prettier-ci": "prettier-check src/**/*",
     "sql:migrate:undo": "npm run sql db:migrate:undo:all",
@@ -46,16 +45,17 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-minify": "^0.5.0",
     "babel-preset-stage-2": "^6.24.1",
+    "copyfiles": "^2.1.0",
     "cross-env": "^3.2.4",
     "eslint": "^5.6.1",
     "eslint-plugin-prettier": "^2.6.2",
     "expect.js": "^0.3.1",
     "mocha": "^5.2.0",
+    "nodemon": "^1.18.4",
     "prettier": "^1.14.2",
     "prettier-check": "^2.0.0",
-    "supertest": "^3.3.0",
-    "copyfiles": "^2.1.0",
-    "nodemon": "^1.18.4",
-    "sequelize-cli": "^4.1.1"
+    "sequelize-cli": "^4.1.1",
+    "sqlite3": "^4.0.4",
+    "supertest": "^3.3.0"
   }
 }

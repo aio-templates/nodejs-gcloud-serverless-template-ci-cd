@@ -34,6 +34,8 @@
 
 **Running in Development**
 
+- Don't forget to locally set your process.env variables if you're using them in `./config/config.js`
+  -- Ex (`npm install cross-env -g` if you want to use cross-env): `cross-env DEV_DB_USERNAME=username DEV_DB_PASSWORD=password DEV_DB_NAME=dbname DEV_DB_HOSTNAME=hostname npm run start`
 - This will start the application and create an sqlite database in your app dir.
   Just open [http://localhost:8000](http://localhost:8000).
 

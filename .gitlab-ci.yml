@@ -90,7 +90,7 @@ dev_deploy:
     name: dev
   script:
     - gcloud beta functions deploy api"-$CI_BRANCH" \
-      --runtime nodejs6 --trigger-http -set-env-vars DEV_DB_USERNAME=$DEV_DB_USERNAME,DEV_DB_PASSWORD=$DEV_DB_PASSWORD,DEV_DB_NAME=$DB_NAME,DEV_DB_HOSTNAME=$DEV_DB_HOSTNAME \
+      --runtime nodejs6 --trigger-http --set-env-vars DEV_DB_USERNAME=$DEV_DB_USERNAME,DEV_DB_PASSWORD=$DEV_DB_PASSWORD,DEV_DB_NAME=$DEV_DB_NAME,DEV_DB_HOSTNAME=$DEV_DB_HOSTNAME \
       --source gs://$GCP_BUCKET/"$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG".zip
           
   only:

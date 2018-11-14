@@ -2,10 +2,11 @@
  * Module dependencies.
  */
 
-var app = require('../app').default;
+import app from '../app';
+
 var debug = require('debug')('express-sequelize');
-var http = require('http');
-var models = require('../models');
+import http from 'http';
+import models from '../models';
 
 /**
  * Get port from environment and store in Express.
@@ -19,11 +20,11 @@ app.set('port', port);
  */
 var server = http.createServer(app);
 
-models.sequelize.sync().then(function() {
+models.sequelize.sync().then(() => {
   /**
    * Listen on provided port, on all network interfaces.
    */
-  server.listen(port, function() {
+  server.listen(port, () => {
     debug('Express server listening on port ' + server.address().port);
   });
   server.on('error', onError);

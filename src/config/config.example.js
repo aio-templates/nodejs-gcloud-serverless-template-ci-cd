@@ -1,7 +1,7 @@
-module.exports = {
+export default {
   test: {
     dialect: 'sqlite',
-    storage: 'data/test-db.sqlite3',
+    storage: ':memory:',
   },
   development: {
     username: process.env.DB_USERNAME,

@@ -1,10 +1,9 @@
-'use strict';
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   var Task = sequelize.define('Task', {
     title: DataTypes.STRING,
   });
 
-  Task.associate = function(models) {
+  Task.associate = models => {
     models.Task.belongsTo(models.User, {
       onDelete: 'CASCADE',
       foreignKey: {

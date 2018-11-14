@@ -20,7 +20,7 @@
 - Go to Project Settings > Service Accounts
 - Select Node.js configuration & Generate new private key.
 - Rename the file to `firebase-admin.json` and place it in `/config` directory
-- (No Auth): Ensure this line is commented out in `src/app.js`: `require('./server/middleware/auth.js')(app);`
+- (No Auth): Ensure this line is commented out in `src/app.js`: `authMiddleware(app);` as well as the import.
 
 **Setting up Database**
 

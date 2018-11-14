@@ -1,6 +1,6 @@
-const models = require('../../models');
+import models from '../../models';
 
-module.exports = {
+export default {
   create(req, res) {
     models.Task.create({
       title: req.body.title,
@@ -18,7 +18,7 @@ module.exports = {
       where: {
         id: req.params.task_id,
       },
-    }).then(function() {
+    }).then(() => {
       res.status(200).send({
         message: 'Succes deleting Task.',
       });

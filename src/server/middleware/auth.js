@@ -1,15 +1,16 @@
-const admin = require('firebase-admin');
-const bearerToken = require('express-bearer-token');
+import admin from 'firebase-admin';
+import bearerToken from 'express-bearer-token';
 
 // Json filename shouldn't change each time it's generated (if it does, update this)
-const serviceAccount = require('../../config/firebase-admin.json');
+import serviceAccount from '../../config/firebase-admin.json';
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-module.exports = app => {
+export default app => {
   app.use(bearerToken()); // Parse out the Bearer Token
-  app.use(function(req, res, next) {
+  app.use((req, res, next) => {
     if (req.originalUrl === '/users/create') {
       console.log('Creating user.');
       next();

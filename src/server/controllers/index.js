@@ -1,7 +1,2 @@
-const users = require('./users');
-const tasks = require('./users');
-
-module.exports = {
-  users,
-  tasks,
-};
+export { default as users } from './users';
+export { default as tasks } from './tasks';

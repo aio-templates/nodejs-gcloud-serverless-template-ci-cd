@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   test: {
     dialect: 'sqlite',
     storage: 'data/test-db.sqlite3',

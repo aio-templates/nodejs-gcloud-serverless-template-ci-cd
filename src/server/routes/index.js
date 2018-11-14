@@ -1,13 +1,12 @@
-const usersController = require('../controllers').users;
-const tasksController = require('../controllers').tasks;
+import { users, tasks } from '../controllers';
 
-module.exports = app => {
+export default app => {
   // Users
-  app.get('/', usersController.findAll);
-  app.post('/create', usersController.create);
-  app.get('/:user_id/destroy', usersController.destroy);
+  app.get('/', users.findAll);
+  app.post('/create', users.create);
+  app.get('/:user_id/destroy', users.destroy);
 
   // Tasks
-  app.post('/:user_id/tasks/create', tasksController.create);
-  app.get('/:user_id/tasks/:task_id/destroy', tasksController.destroy);
+  app.post('/:user_id/tasks/create', tasks.create);
+  app.get('/:user_id/tasks/:task_id/destroy', tasks.destroy);
 };

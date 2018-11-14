@@ -1,10 +1,10 @@
-const models = require('../../models');
+import models from '../../models';
 
-module.exports = {
+export default {
   findAll(req, res) {
     models.User.findAll({
       include: [models.Task],
-    }).then(function(users) {
+    }).then(users => {
       res.status(200).send({
         title: 'Sequelize: All Users Example',
         users: users,
@@ -28,7 +28,7 @@ module.exports = {
       where: {
         id: req.params.user_id,
       },
-    }).then(function() {
+    }).then(() => {
       res.status(200).send({
         message: 'Succes deleting User.',
       });

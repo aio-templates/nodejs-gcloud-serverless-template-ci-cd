@@ -1,7 +1,9 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
+import express from 'express';
+import path from 'path';
+import logger from 'morgan';
+import bodyParser from 'body-parser';
+// import authMiddleware from './server/middleware/auth';
+import routes from './server/routes';
 
 // Set up the express app
 const app = express();
@@ -14,10 +16,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Add middleware to the application
-// require('./server/middleware/auth.js')(app);
+// authMiddleware(app);
 
 // Add routes to the application
-require('./server/routes')(app);
+routes(app);
 
 // Setup a default catch-all route that sends back a welcome message in JSON format.
 app.get('/*', (req, res) =>

@@ -1,15 +1,15 @@
-'use strict';
-
-var expect = require('expect.js');
+import 'babel-polyfill';
+import expect from 'expect.js';
+import models from '../../src/models';
 
 describe('models/task', function() {
   before(function() {
-    return require('../../src/models').sequelize.sync();
+    return models.sequelize.sync();
   });
 
   beforeEach(function() {
-    this.User = require('../../src/models').User;
-    this.Task = require('../../src/models').Task;
+    this.User = models.User;
+    this.Task = models.Task;
   });
 
   describe('create', function() {

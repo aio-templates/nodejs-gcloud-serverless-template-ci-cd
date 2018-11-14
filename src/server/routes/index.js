@@ -2,11 +2,11 @@ import { users, tasks } from '../controllers';
 
 export default app => {
   // Users
-  app.get('/', users.findAll);
-  app.post('/create', users.create);
-  app.get('/:user_id/destroy', users.destroy);
+  app.get('/users', users.findAll);
+  app.post('/users', users.create);
+  app.delete('/users/:user_id', users.destroy);
 
   // Tasks
-  app.post('/:user_id/tasks/create', tasks.create);
-  app.get('/:user_id/tasks/:task_id/destroy', tasks.destroy);
+  app.post('/tasks', tasks.create);
+  app.delete('/tasks/:user_id/:task_id', tasks.destroy);
 };

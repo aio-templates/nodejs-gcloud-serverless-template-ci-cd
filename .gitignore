@@ -11,4 +11,4 @@ build
 config/config.js
 yarn-error.log*
 yarn.lock
-config/firebase-admin.json
+src/config/*.json

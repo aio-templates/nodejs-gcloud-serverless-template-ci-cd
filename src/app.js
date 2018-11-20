@@ -4,9 +4,11 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 // import authMiddleware from './server/middleware/auth';
 import routes from './server/routes';
+import cors from 'cors';
 
 // Set up the express app
 const app = express();
+app.use(cors());
 
 // Log requests to the console.
 app.use(logger('dev'));

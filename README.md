@@ -51,6 +51,7 @@ npm start
 - [Sequelize Docs](http://docs.sequelizejs.com/) are life.
 - I have added the following helpful scripts to easily handle migrations, seeding etc. They are found in packages.json
   -- Example: `npm run sql:migrate`
+- Create a `config.json` file in `src/config/`, make it according to the sequelize docs so that sequelize cli can run against this json.
 
 ```
     "sql:migrate:undo": "npm run sql db:migrate:undo:all",

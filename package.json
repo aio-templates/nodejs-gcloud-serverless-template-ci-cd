@@ -19,7 +19,7 @@
     "sql:seed": "npm run sql db:seed:all",
     "sql:s": "npm run sql:migrate:undo && npm run sql:migrate && npm run sql:seed",
     "sql": "./node_modules/sequelize-cli/lib/sequelize",
-    "sqlize:s": "sequelize db:migrate:undo && db:migrate && db:seed:all"
+    "sqlize:s": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
